@@ -2,9 +2,6 @@ package webapi
 
 import (
 	"encoding/json"
-	"github.com/gonuts/commander"
-	"github.com/gonuts/flag"
-	"github.com/gorilla/mux"
 	"log"
 	"net/http"
 	"strings"
@@ -14,16 +11,22 @@ import (
 	"yap/nlp/format/lex"
 	"yap/nlp/parser/joint"
 	"yap/nlp/types"
+
+	"github.com/gonuts/commander"
+	"github.com/gonuts/flag"
+	"github.com/gorilla/mux"
 )
 
 var (
 	router *mux.Router
 )
 
+// NOTE: Actually parsed as amblattice and disamblattice
+
 type Request struct {
-	Text          string `json:text`
-	AmbLattice    string `json:amb_lattice`
-	DisambLattice string `json:disamb_lattice`
+	Text          string `json:"text"`
+	AmbLattice    string `json:"amb_lattice"`
+	DisambLattice string `json:"disamb_lattice"`
 }
 
 type Data struct {
@@ -108,6 +111,23 @@ func HebrewJointHandler(resp http.ResponseWriter, req *http.Request) {
 	respondWithJSON(resp, http.StatusOK, data)
 }
 
+func HebrewJointFromLatticeHandler(resp http.ResponseWriter, req *http.Request) {
+	request := Request{}
+	err := json.NewDecoder(req.Body).Decode(&request)
+	log.Println(request)
+	if err != nil {
+		data := Data{Error: err}
+		respondWithJSON(resp, http.StatusBadRequest, data)
+		return
+	}
+	ambLattice := strings.Replace(request.Text, "\\t", "\t", -1)
+	ambLattice = strings.Replace(ambLattice, "\\n", "\n", -1)
+	log.Println(ambLattice)
+	_, mdLattice, _ := JointParseAmbiguousLattices(ambLattice)
+	data := Data{MDLattice: mdLattice}
+	respondWithJSON(resp, http.StatusOK, data)
+}
+
 func respondWithJSON(resp http.ResponseWriter, code int, payload Data) {
 	resp.Header().Set("Content-Type", "application/json")
 	resp.WriteHeader(code)
@@ -165,6 +185,7 @@ func StartAPIServer(cmd *commander.Command, args []string) error {
 	router.HandleFunc("/yap/heb/ma", HebrewMorphAnalyzerHandler)
 	router.HandleFunc("/yap/heb/md", MorphDisambiguatorHandler)
 	router.HandleFunc("/yap/heb/dep", DepParserHandler)
+	router.HandleFunc("/yap/heb/joint/lattice", HebrewJointFromLatticeHandler)
 	router.HandleFunc("/yap/heb/pipeline", HebrewPipelineHandler)
 	router.HandleFunc("/yap/heb/joint", HebrewJointHandler)
 	log.Fatal(http.ListenAndServe(":8000", router))
