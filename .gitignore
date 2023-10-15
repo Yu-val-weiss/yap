@@ -56,3 +56,4 @@ oldlogs/
 
 # folders i don't want to see
 quiet/
+*.bz2
