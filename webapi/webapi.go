@@ -120,7 +120,7 @@ func HebrewJointFromLatticeHandler(resp http.ResponseWriter, req *http.Request) 
 		respondWithJSON(resp, http.StatusBadRequest, data)
 		return
 	}
-	ambLattice := strings.Replace(request.Text, "\\t", "\t", -1)
+	ambLattice := strings.Replace(request.AmbLattice, "\\t", "\t", -1)
 	ambLattice = strings.Replace(ambLattice, "\\n", "\n", -1)
 	log.Println(ambLattice)
 	_, mdLattice, _ := JointParseAmbiguousLattices(ambLattice)
