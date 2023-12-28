@@ -37,6 +37,11 @@ type Data struct {
 	Error        error  `json:"error,omitempty"`
 }
 
+func HealthCheckHandler(resp http.ResponseWriter, req *http.Request) {
+	resp.WriteHeader(http.StatusOK)
+	log.Println(resp, "OK")
+}
+
 func HebrewMorphAnalyzerHandler(resp http.ResponseWriter, req *http.Request) {
 	request := Request{}
 	err := json.NewDecoder(req.Body).Decode(&request)
@@ -189,6 +194,7 @@ func StartAPIServer(cmd *commander.Command, args []string) error {
 	router.HandleFunc("/yap/heb/joint/lattice", HebrewJointFromLatticeHandler)
 	router.HandleFunc("/yap/heb/pipeline", HebrewPipelineHandler)
 	router.HandleFunc("/yap/heb/joint", HebrewJointHandler)
+	router.HandleFunc("/yap/heb/healthcheck", HealthCheckHandler)
 	log.Fatal(http.ListenAndServe(":8000", router))
 	return nil
 }
