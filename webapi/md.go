@@ -41,12 +41,12 @@ func MorphDisambiguatorInitialize(cmd *commander.Command, args []string) {
 	transitionSystem := transition.TransitionSystem(mdTrans)
 	featuresLocation, found := util.LocateFile(app.MdFeaturesFile, app.DEFAULT_CONF_DIRS)
 	if !found {
-		panic(fmt.Sprintf("MD features not found"))
+		panic("MD features not found")
 	}
 	app.MdFeaturesFile = featuresLocation
 	modelLocation, found := util.LocateFile(app.MdModelName, app.DEFAULT_MODEL_DIRS)
 	if !found {
-		panic(fmt.Sprintf("MD model not found"))
+		panic("MD model not found")
 	}
 	app.MdModelName = modelLocation
 	confBeam := &search.Beam{}
@@ -60,7 +60,7 @@ func MorphDisambiguatorInitialize(cmd *commander.Command, args []string) {
 	if err != nil {
 		panic(fmt.Sprintf("Failed reading MD feature configuration file [%v]: %v", featuresLocation, err))
 	}
-	extractor := app.SetupExtractor(featureSetup, []byte("MPL"))
+	app.SetupExtractor(featureSetup, []byte("MPL"))
 	log.Println()
 	nlp.InitOpenParamFamily("HEBTB")
 	log.Println()

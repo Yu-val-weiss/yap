@@ -12,7 +12,7 @@ import (
 	"yu-val-weiss/yap/app"
 	"yu-val-weiss/yap/nlp/format/conll"
 	"yu-val-weiss/yap/nlp/format/lattice"
-	. "yu-val-weiss/yap/nlp/parser/dependency/transition"
+	deptransition "yu-val-weiss/yap/nlp/parser/dependency/transition"
 	nlp "yu-val-weiss/yap/nlp/types"
 	"yu-val-weiss/yap/util"
 	"yu-val-weiss/yap/util/conf"
@@ -30,18 +30,18 @@ func DepParserInitialize(cmd *commander.Command, args []string) {
 		arcSystem     transition.TransitionSystem
 		terminalStack int
 	)
-	arcSystem = &ArcEager{}
+	arcSystem = &deptransition.ArcEager{}
 	terminalStack = 0
 	arcSystem.AddDefaultOracle()
 	transitionSystem := transition.TransitionSystem(arcSystem)
 	featuresLocation, found := util.LocateFile(app.DepFeaturesFile, app.DEFAULT_CONF_DIRS)
 	if !found {
-		panic(fmt.Sprintf("Dep features not found"))
+		panic("Dep features not found")
 	}
 	app.DepFeaturesFile = featuresLocation
 	labelsLocation, found := util.LocateFile(app.DepLabelsFile, app.DEFAULT_CONF_DIRS)
 	if !found {
-		panic(fmt.Sprintf("Dep labels not found"))
+		panic("Dep labels not found")
 	}
 	app.DepLabelsFile = labelsLocation
 	var (
@@ -49,7 +49,7 @@ func DepParserInitialize(cmd *commander.Command, args []string) {
 	)
 	modelLocation, found := util.LocateFile(app.DepModelName, app.DEFAULT_MODEL_DIRS)
 	if !found {
-		panic(fmt.Sprintf("Dep model not found"))
+		panic("Dep model not found")
 	}
 	app.DepModelName = modelLocation
 	app.DepConfigOut(modelLocation, &search.Beam{}, transitionSystem)
@@ -58,8 +58,8 @@ func DepParserInitialize(cmd *commander.Command, args []string) {
 		panic(fmt.Sprintf("Failed reading Dep labels from file: %v", labelsLocation))
 	}
 	app.SetupDepEnum(relations.Values)
-	arcSystem = &ArcEager{
-		ArcStandard: ArcStandard{
+	arcSystem = &deptransition.ArcEager{
+		ArcStandard: deptransition.ArcStandard{
 			SHIFT:       app.SH.Value(),
 			LEFT:        app.LA.Value(),
 			RIGHT:       app.RA.Value(),
@@ -79,7 +79,7 @@ func DepParserInitialize(cmd *commander.Command, args []string) {
 		panic(fmt.Sprintf("Failed reading Dep features from file: %v", featuresLocation))
 	}
 	extractor := app.SetupExtractor(featureSetup, []byte("A"))
-	group, _ := extractor.TransTypeGroups['A']
+	group := extractor.TransTypeGroups['A']
 	formatters := make([]util.Format, len(group.FeatureTemplates))
 	for i, formatter := range group.FeatureTemplates {
 		formatters[i] = formatter
@@ -95,7 +95,7 @@ func DepParserInitialize(cmd *commander.Command, args []string) {
 	app.DepEMSuffix = serialization.EMSuffix
 	log.Println("Loaded model")
 
-	conf := &SimpleConfiguration{
+	conf := &deptransition.SimpleConfiguration{
 		EWord:         app.DepEWord,
 		EPOS:          app.DepEPOS,
 		EWPOS:         app.DepEWPOS,

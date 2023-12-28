@@ -14,7 +14,7 @@ import (
 	"yu-val-weiss/yap/nlp/format/lattice"
 	"yu-val-weiss/yap/nlp/format/mapping"
 	"yu-val-weiss/yap/nlp/format/segmentation"
-	. "yu-val-weiss/yap/nlp/parser/dependency/transition"
+	deptransition "yu-val-weiss/yap/nlp/parser/dependency/transition"
 	"yu-val-weiss/yap/nlp/parser/disambig"
 	"yu-val-weiss/yap/nlp/parser/joint"
 	nlp "yu-val-weiss/yap/nlp/types"
@@ -41,8 +41,8 @@ func JointParserInitialize() {
 		ParamFunc: paramFunc,
 		UsePOP:    app.UsePOP,
 	}
-	arcSystem = &ArcEager{
-		ArcStandard: ArcStandard{},
+	arcSystem = &deptransition.ArcEager{
+		ArcStandard: deptransition.ArcStandard{},
 	}
 	terminalStack = 0
 	arcSystem.AddDefaultOracle()
@@ -57,21 +57,21 @@ func JointParserInitialize() {
 	if !app.VerifyExists(app.JointFeaturesFile) {
 		featuresLocation, found := util.LocateFile(app.JointFeaturesFile, app.DEFAULT_CONF_DIRS)
 		if !found {
-			panic(fmt.Sprintf("Joint features not found"))
+			panic("Joint features not found")
 		}
 		app.JointFeaturesFile = featuresLocation
 	}
 	if !app.VerifyExists(app.DepLabelsFile) {
 		labelsLocation, found := util.LocateFile(app.DepLabelsFile, app.DEFAULT_CONF_DIRS)
 		if !found {
-			panic(fmt.Sprintf("Dep labels not found"))
+			panic("Dep labels not found")
 		}
 		app.DepLabelsFile = labelsLocation
 	}
 	if !app.VerifyExists(app.JointModelFile) {
 		modelLocation, found := util.LocateFile(app.JointModelFile, app.DEFAULT_MODEL_DIRS)
 		if !found {
-			panic(fmt.Sprintf("Joint model not found"))
+			panic("Joint model not found")
 		}
 		app.JointModelFile = modelLocation
 	}
@@ -81,11 +81,11 @@ func JointParserInitialize() {
 	app.JointConfigOut(app.JointModelFile, confBeam, transitionSystem)
 	relations, err := conf.ReadFile(app.DepLabelsFile)
 	if err != nil {
-		panic(fmt.Sprintf("Joint labels not found"))
+		panic("Joint labels not found")
 	}
 	app.SetupEnum(relations.Values)
-	arcSystem = &ArcEager{
-		ArcStandard: ArcStandard{
+	arcSystem = &deptransition.ArcEager{
+		ArcStandard: deptransition.ArcStandard{
 			SHIFT:       app.SH.Value(),
 			LEFT:        app.LA.Value(),
 			RIGHT:       app.RA.Value(),
@@ -112,7 +112,7 @@ func JointParserInitialize() {
 	transitionSystem = transition.TransitionSystem(jointTrans)
 	featureSetup, err := transition.LoadFeatureConfFile(app.JointFeaturesFile)
 	if err != nil {
-		panic(fmt.Sprintf("Joint features not found"))
+		panic("Joint features not found")
 	}
 	groups := []byte("MPLA")
 	extractor = app.SetupExtractor(featureSetup, groups)
@@ -133,8 +133,8 @@ func JointParserInitialize() {
 	app.ETrans = serialization.ETrans
 	app.ETokens = serialization.ETokens
 	log.Println("Loaded model")
-	arcSystem = &ArcEager{
-		ArcStandard: ArcStandard{
+	arcSystem = &deptransition.ArcEager{
+		ArcStandard: deptransition.ArcStandard{
 			SHIFT:       app.SH.Value(),
 			LEFT:        app.LA.Value(),
 			RIGHT:       app.RA.Value(),
@@ -170,7 +170,7 @@ func JointParseAmbiguousLattices(input string) (string, string, string) {
 	}
 	predAmbLat := lattice.Lattice2SentenceCorpus(lAmb, app.EWord, app.EPOS, app.EWPOS, app.EMorphProp, app.EMHost, app.EMSuffix)
 	conf := &joint.JointConfig{
-		SimpleConfiguration: SimpleConfiguration{
+		SimpleConfiguration: deptransition.SimpleConfiguration{
 			EWord:         app.EWord,
 			EPOS:          app.EPOS,
 			EWPOS:         app.EWPOS,

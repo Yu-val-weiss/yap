@@ -75,7 +75,7 @@ func HebrewMorphAnalyzeRawSentences(input string) string {
 	log.Println()
 	output := lattice.Sentence2LatticeCorpus(lattices, maHebrew)
 	buf := new(bytes.Buffer)
-	err = lattice.Write(buf, output)
+	lattice.Write(buf, output)
 	maLock.Unlock()
 	return buf.String()
 }
