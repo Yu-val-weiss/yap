@@ -30,10 +30,11 @@ type Request struct {
 }
 
 type Data struct {
-	MALattice string `json:"ma_lattice,omitempty"`
-	MDLattice string `json:"md_lattice,omitempty"`
-	DepTree   string `json:"dep_tree,omitempty"`
-	Error     error  `json:"error,omitempty"`
+	MALattice    string `json:"ma_lattice,omitempty"`
+	MDLattice    string `json:"md_lattice,omitempty"`
+	DepTree      string `json:"dep_tree,omitempty"`
+	Segmentation string `json:"segmentation,omitempty"`
+	Error        error  `json:"error,omitempty"`
 }
 
 func HebrewMorphAnalyzerHandler(resp http.ResponseWriter, req *http.Request) {
@@ -106,8 +107,8 @@ func HebrewJointHandler(resp http.ResponseWriter, req *http.Request) {
 	}
 	rawText := strings.Replace(request.Text, " ", "\n", -1)
 	maLattice := HebrewMorphAnalyzeRawSentences(rawText)
-	depTree, mdLattice, _ := JointParseAmbiguousLattices(maLattice)
-	data := Data{MALattice: maLattice, MDLattice: mdLattice, DepTree: depTree}
+	depTree, mdLattice, seg := JointParseAmbiguousLattices(maLattice)
+	data := Data{MALattice: maLattice, MDLattice: mdLattice, DepTree: depTree, Segmentation: seg}
 	respondWithJSON(resp, http.StatusOK, data)
 }
 
