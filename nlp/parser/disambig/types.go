@@ -1,7 +1,7 @@
 package disambig
 
 import (
-	. "yap/nlp/types"
+	. "yu-val-weiss/yap/nlp/types"
 )
 
 type MorphologicalDisambiguator interface {

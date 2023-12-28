@@ -1,32 +1,35 @@
 package app
 
 import (
-	"yap/nlp/format/conllu"
-	"yap/nlp/format/lattice"
-	"yap/nlp/format/lex"
-	"yap/nlp/format/raw"
-	"yap/util"
+	"yu-val-weiss/yap/nlp/format/conllu"
+	"yu-val-weiss/yap/nlp/format/lattice"
+	"yu-val-weiss/yap/nlp/format/lex"
+	"yu-val-weiss/yap/nlp/format/raw"
+	"yu-val-weiss/yap/util"
 
-	"yap/nlp/parser/ma"
-	"yap/nlp/parser/xliter8"
-	nlp "yap/nlp/types"
-	// "yap/util"
+	"yu-val-weiss/yap/nlp/parser/ma"
+	"yu-val-weiss/yap/nlp/parser/xliter8"
+	nlp "yu-val-weiss/yap/nlp/types"
+
+	// "yu-val-weiss/yap/util"
 
 	"fmt"
 	"log"
+
 	// "os"
 
+	"flag"
+
 	"github.com/gonuts/commander"
-	"github.com/gonuts/flag"
 )
 
 var (
 	HebMaPrefixFile, HebMaLexiconFile string
 	HebMaXliter8out, HebMaAlwaysnnp   bool
-	HebMaNnpnofeats              bool
-	HebMaShowoov                 bool
-	outJSON                 bool
-	HEB_MA_DEFAULT_DATA_DIRS       = []string{".", "data/bgulex"}
+	HebMaNnpnofeats                   bool
+	HebMaShowoov                      bool
+	outJSON                           bool
+	HEB_MA_DEFAULT_DATA_DIRS          = []string{".", "data/bgulex"}
 )
 
 func HebMAConfigOut() {

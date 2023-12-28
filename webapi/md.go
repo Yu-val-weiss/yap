@@ -3,19 +3,20 @@ package webapi
 import (
 	"bytes"
 	"fmt"
-	"github.com/gonuts/commander"
 	"log"
 	"strings"
 	"sync"
-	"yap/alg/search"
-	"yap/alg/transition"
-	transitionmodel "yap/alg/transition/model"
-	"yap/app"
-	"yap/nlp/format/lattice"
-	"yap/nlp/format/mapping"
-	"yap/nlp/parser/disambig"
-	nlp "yap/nlp/types"
-	"yap/util"
+	"yu-val-weiss/yap/alg/search"
+	"yu-val-weiss/yap/alg/transition"
+	transitionmodel "yu-val-weiss/yap/alg/transition/model"
+	"yu-val-weiss/yap/app"
+	"yu-val-weiss/yap/nlp/format/lattice"
+	"yu-val-weiss/yap/nlp/format/mapping"
+	"yu-val-weiss/yap/nlp/parser/disambig"
+	nlp "yu-val-weiss/yap/nlp/types"
+	"yu-val-weiss/yap/util"
+
+	"github.com/gonuts/commander"
 )
 
 var (

@@ -1,6 +1,6 @@
 package graph
 
-import "yap/util"
+import "yu-val-weiss/yap/util"
 
 type BasicVertex int
 type BasicDirectedEdge [3]int

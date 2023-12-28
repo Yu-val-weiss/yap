@@ -1,19 +1,21 @@
 package app
 
 import (
-	"yap/eval"
-	"yap/nlp/format/conll"
-	"yap/nlp/format/lattice"
-	dep "yap/nlp/parser/dependency/transition"
-	"yap/util"
-	"yap/util/conf"
+	"yu-val-weiss/yap/eval"
+	"yu-val-weiss/yap/nlp/format/conll"
+	"yu-val-weiss/yap/nlp/format/lattice"
+	dep "yu-val-weiss/yap/nlp/parser/dependency/transition"
+	"yu-val-weiss/yap/util"
+	"yu-val-weiss/yap/util/conf"
 
 	"log"
 	"os"
+
 	// "strings"
 
+	"flag"
+
 	"github.com/gonuts/commander"
-	"github.com/gonuts/flag"
 )
 
 func DepEvalConfigOut() {

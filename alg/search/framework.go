@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"log"
 	"sync"
-	"yap/alg/transition"
-	"yap/util"
+	"yu-val-weiss/yap/alg/transition"
+	"yu-val-weiss/yap/util"
 )
 
 const (

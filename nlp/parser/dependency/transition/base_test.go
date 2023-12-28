@@ -1,9 +1,9 @@
 package transition
 
 import (
-	AbstractTransition "yap/alg/transition"
-	nlp "yap/nlp/types"
-	"yap/util"
+	AbstractTransition "yu-val-weiss/yap/alg/transition"
+	nlp "yu-val-weiss/yap/nlp/types"
+	"yu-val-weiss/yap/util"
 )
 
 var rawTestSent nlp.BasicETaggedSentence = nlp.BasicETaggedSentence{
@@ -134,12 +134,12 @@ var (
 // 	{"N0|w|vl", "N0|w"},
 // 	{"N0|p|vl", "N0|w"},
 
-// 	{"S0|w|sr", "S0|w"},
-// 	{"S0|p|sr", "S0|w"},
-// 	{"S0|w|sl", "S0|w"},
-// 	{"S0|p|sl", "S0|w"},
-// 	{"N0|w|sl", "N0|w"},
-// 	{"N0|p|sl", "N0|w"}}
+// {"S0|w|sr", "S0|w"},
+// {"S0|p|sr", "S0|w"},
+// {"S0|w|sl", "S0|w"},
+// {"S0|p|sl", "S0|w"},
+// {"N0|w|sl", "N0|w"},
+// {"N0|p|sl", "N0|w"}}
 var TEST_RICH_FEATURES [][2]string = [][2]string{
 	{"S0|w", "S0|w"},
 	// {"S0|p", "S0|w"},

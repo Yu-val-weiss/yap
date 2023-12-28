@@ -1,8 +1,8 @@
 package types
 
 import (
-	"yap/alg/graph"
-	"yap/util"
+	"yu-val-weiss/yap/alg/graph"
+	"yu-val-weiss/yap/util"
 )
 
 type DepNode interface {

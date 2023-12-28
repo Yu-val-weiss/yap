@@ -1,27 +1,29 @@
 package app
 
 import (
-	"yap/alg/perceptron"
-	"yap/alg/search"
-	"yap/alg/transition"
-	transitionmodel "yap/alg/transition/model"
-	"yap/nlp/format/conllu"
-	"yap/nlp/format/lattice"
-	"yap/nlp/format/mapping"
+	"yu-val-weiss/yap/alg/perceptron"
+	"yu-val-weiss/yap/alg/search"
+	"yu-val-weiss/yap/alg/transition"
+	transitionmodel "yu-val-weiss/yap/alg/transition/model"
+	"yu-val-weiss/yap/nlp/format/conllu"
+	"yu-val-weiss/yap/nlp/format/lattice"
+	"yu-val-weiss/yap/nlp/format/mapping"
 
-	"yap/nlp/parser/dependency/transition/morph"
-	"yap/nlp/parser/disambig"
+	"yu-val-weiss/yap/nlp/parser/dependency/transition/morph"
+	"yu-val-weiss/yap/nlp/parser/disambig"
 
-	nlp "yap/nlp/types"
-	"yap/util"
+	nlp "yu-val-weiss/yap/nlp/types"
+	"yu-val-weiss/yap/util"
 
 	"fmt"
 	"log"
 	"os"
 
+	"yu-val-weiss/yap/nlp/format/conllul"
+
+	"flag"
+
 	"github.com/gonuts/commander"
-	"github.com/gonuts/flag"
-	"yap/nlp/format/conllul"
 )
 
 var (
@@ -43,7 +45,7 @@ func SetupMDEnum() {
 	ETrans = util.NewEnumSet(10000)
 	_, _ = ETrans.Add("IDLE") // dummy no action transition for zpar equivalence
 	iPOP, _ := ETrans.Add("POP")
-	POP = &transition.TypedTransition{'P', iPOP}
+	POP = &transition.TypedTransition{T: 'P', V: iPOP}
 
 	MdEWord, MdEPOS, MdEWPOS = util.NewEnumSet(APPROX_WORDS), util.NewEnumSet(APPROX_POS), util.NewEnumSet(APPROX_WORDS*5)
 	MdEMHost, MdEMSuffix = util.NewEnumSet(APPROX_MHOSTS), util.NewEnumSet(APPROX_MSUFFIXES)
@@ -73,8 +75,8 @@ func CombineToGoldMorph(goldLat, ambLat nlp.LatticeSentence) (m *disambig.MDConf
 			continue
 		}
 		mapping := &nlp.Mapping{
-			lat.Token,
-			lat.Spellouts[0],
+			Token:    lat.Token,
+			Spellout: lat.Spellouts[0],
 		}
 		// if the gold spellout doesn't exist in the lattice, add it
 		if len(ambLat[i].Spellouts) == 0 {
@@ -97,8 +99,6 @@ func CombineToGoldMorph(goldLat, ambLat nlp.LatticeSentence) (m *disambig.MDConf
 				}
 			}
 			// ambLat[i].UnionPath(&lat)
-		} else {
-			// log.Println(mapping.Spellout, "Spellout found")
 		}
 		// ambLat[i].BridgeMissingMorphemes()
 
@@ -334,7 +334,7 @@ func MDTrainAndParse(cmd *commander.Command, args []string) error {
 			log.Println("Generating Gold Sequences For Training")
 		}
 
-		const NUM_SENTS = 10
+		// const NUM_SENTS = 10
 		var goldDisLat, goldAmbLat []interface{}
 		if useConllU {
 			conllu.IGNORE_LEMMA = lattice.IGNORE_LEMMA
@@ -435,7 +435,7 @@ func MDTrainAndParse(cmd *commander.Command, args []string) error {
 			// util.LogMemory()
 			log.Println("Training", Iterations, "iteration(s)")
 		}
-		group, _ := extractor.TransTypeGroups['M']
+		group := extractor.TransTypeGroups['M']
 		formatters := make([]util.Format, len(group.FeatureTemplates))
 		for i, formatter := range group.FeatureTemplates {
 			formatters[i] = formatter

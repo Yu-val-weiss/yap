@@ -1,18 +1,19 @@
 package app
 
 import (
-	// "yap/nlp/format/lattice"
+	// "yu-val-weiss/yap/nlp/format/lattice"
 
-	// nlp "yap/nlp/types"
-	"yap/nlp/parser/ma"
-	// "yap/util"
+	// nlp "yu-val-weiss/yap/nlp/types"
+	"yu-val-weiss/yap/nlp/parser/ma"
+	// "yu-val-weiss/yap/util"
 
 	// "fmt"
 	"log"
 	// "os"
 
+	"flag"
+
 	"github.com/gonuts/commander"
-	"github.com/gonuts/flag"
 )
 
 var (

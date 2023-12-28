@@ -3,10 +3,10 @@ package model
 import (
 	"encoding/gob"
 	"fmt"
-	. "yap/alg/featurevector"
-	"yap/alg/perceptron"
-	"yap/alg/transition"
-	"yap/util"
+	. "yu-val-weiss/yap/alg/featurevector"
+	"yu-val-weiss/yap/alg/perceptron"
+	"yu-val-weiss/yap/alg/transition"
+	"yu-val-weiss/yap/util"
 
 	"log"
 	"strings"

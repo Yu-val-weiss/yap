@@ -1,19 +1,19 @@
 package morph
 
 import (
-	"yap/alg/perceptron"
-	"yap/nlp/parser/dependency"
-	"yap/util"
+	"yu-val-weiss/yap/alg/perceptron"
+	"yu-val-weiss/yap/alg/transition"
+	"yu-val-weiss/yap/nlp/parser/dependency"
+	"yu-val-weiss/yap/util"
 
-	G "yap/alg/graph"
-	Transition "yap/alg/transition"
-	TransitionModel "yap/alg/transition/model"
-	T "yap/nlp/parser/dependency/transition"
-	nlp "yap/nlp/types"
 	"log"
 	"runtime"
 	"sort"
 	"testing"
+	G "yu-val-weiss/yap/alg/graph"
+	TransitionModel "yu-val-weiss/yap/alg/transition/model"
+	T "yu-val-weiss/yap/nlp/parser/dependency/transition"
+	nlp "yu-val-weiss/yap/nlp/types"
 )
 
 // sent: HELIM MZHIBIM .

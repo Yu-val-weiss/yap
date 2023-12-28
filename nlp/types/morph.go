@@ -6,9 +6,9 @@ import (
 	"reflect"
 	"sort"
 	"strings"
-	"yap/alg"
-	"yap/alg/graph"
-	"yap/util"
+	"yu-val-weiss/yap/alg"
+	"yu-val-weiss/yap/alg/graph"
+	"yu-val-weiss/yap/util"
 )
 
 type Morpheme struct {

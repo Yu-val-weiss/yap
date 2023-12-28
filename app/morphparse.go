@@ -1,20 +1,20 @@
 package app
 
 // import (
-// 	"yap/alg/featurevector"
-// 	"yap/alg/perceptron"
-// 	BeamSearch "yap/alg/search"
-// 	"yap/alg/transition"
-// 	transitionmodel "yap/alg/transition/model"
-// 	"yap/nlp/format/conll"
-// 	"yap/nlp/format/lattice"
-// 	"yap/nlp/format/segmentation"
-// 	"yap/nlp/parser/dependency"
-// 	. "yap/nlp/parser/dependency/transition"
-// 	"yap/nlp/parser/dependency/transition/morph"
-// 	nlp "yap/nlp/types"
-// 	"yap/util"
-// 	"yap/util/conf"
+// 	"yu-val-weiss/yap/alg/featurevector"
+// 	"yu-val-weiss/yap/alg/perceptron"
+// 	BeamSearch "yu-val-weiss/yap/alg/search"
+// 	"yu-val-weiss/yap/alg/transition"
+// 	transitionmodel "yu-val-weiss/yap/alg/transition/model"
+// 	"yu-val-weiss/yap/nlp/format/conll"
+// 	"yu-val-weiss/yap/nlp/format/lattice"
+// 	"yu-val-weiss/yap/nlp/format/segmentation"
+// 	"yu-val-weiss/yap/nlp/parser/dependency"
+// 	. "yu-val-weiss/yap/nlp/parser/dependency/transition"
+// 	"yu-val-weiss/yap/nlp/parser/dependency/transition/morph"
+// 	nlp "yu-val-weiss/yap/nlp/types"
+// 	"yu-val-weiss/yap/util"
+// 	"yu-val-weiss/yap/util/conf"
 
 // 	"fmt"
 // 	"log"
@@ -22,7 +22,7 @@ package app
 // 	"runtime"
 
 // 	"github.com/gonuts/commander"
-// 	"github.com/gonuts/flag"
+// 	"flag"
 // )
 
 // func SetupMorphTransEnum(relations []string) {

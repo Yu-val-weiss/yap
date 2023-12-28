@@ -1,10 +1,10 @@
 package segmentation
 
 import (
-	nlp "yap/nlp/types"
 	"io"
 	"os"
 	"strings"
+	nlp "yu-val-weiss/yap/nlp/types"
 )
 
 func Write(writer io.Writer, graphs []interface{}) {

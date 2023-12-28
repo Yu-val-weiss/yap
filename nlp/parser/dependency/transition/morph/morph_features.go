@@ -1,9 +1,9 @@
 package morph
 
 // import (
-// 	. "yap/alg"
-// 	nlp "yap/nlp/types"
-// 	// "yap/util"
+// 	. "yu-val-weiss/yap/alg"
+// 	nlp "yu-val-weiss/yap/nlp/types"
+// 	// "yu-val-weiss/yap/util"
 // 	"strings"
 // )
 //

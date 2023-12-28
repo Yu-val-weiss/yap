@@ -1,8 +1,9 @@
 package transition
 
 import (
-	. "yap/nlp/types"
 	"fmt"
+	. "yu-val-weiss/yap/nlp/types"
+
 	// "log"
 	"reflect"
 	"sort"

@@ -4,10 +4,10 @@ package lattice
 
 import (
 	"encoding/json"
-	"yap/alg/graph"
-	"yap/nlp/parser/xliter8"
-	nlp "yap/nlp/types"
-	"yap/util"
+	"yu-val-weiss/yap/alg/graph"
+	"yu-val-weiss/yap/nlp/parser/xliter8"
+	nlp "yu-val-weiss/yap/nlp/types"
+	"yu-val-weiss/yap/util"
 
 	"bufio"
 	"bytes"
@@ -292,8 +292,8 @@ func ParseULEdge(record []string) (*Edge, error) {
 	row.Word = word
 
 	//if !IGNORE_LEMMA {
-		lemma := ParseString(record[3])
-		row.Lemma = lemma
+	lemma := ParseString(record[3])
+	row.Lemma = lemma
 	//}
 	// if lemma == "" {
 	// 	return row, errors.New("Empty LEMMA field")
@@ -342,8 +342,8 @@ func ParseUDEdge(record []string) (*Edge, error) {
 	row.Word = word
 
 	//if !IGNORE_LEMMA {
-		lemma := ParseString(record[3])
-		row.Lemma = lemma
+	lemma := ParseString(record[3])
+	row.Lemma = lemma
 	//}
 	// if lemma == "" {
 	// 	return row, errors.New("Empty LEMMA field")
@@ -398,8 +398,8 @@ func ParseEdge(record []string) (*Edge, error) {
 	row.Word = word
 
 	//if !IGNORE_LEMMA {
-		lemma := ParseString(record[3])
-		row.Lemma = lemma
+	lemma := ParseString(record[3])
+	row.Lemma = lemma
 	//}
 	// if lemma == "" {
 	// 	return row, errors.New("Empty LEMMA field")

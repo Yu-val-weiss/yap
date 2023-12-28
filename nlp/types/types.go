@@ -3,7 +3,7 @@ package types
 import (
 	"reflect"
 	"strings"
-	"yap/util"
+	"yu-val-weiss/yap/util"
 )
 
 const (

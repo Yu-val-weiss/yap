@@ -1,8 +1,8 @@
 package perceptron
 
 import (
-	. "yap/alg/featurevector"
-	"yap/util"
+	. "yu-val-weiss/yap/alg/featurevector"
+	"yu-val-weiss/yap/util"
 )
 
 type Model interface {

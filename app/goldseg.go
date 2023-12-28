@@ -1,15 +1,16 @@
 package app
 
 import (
-	"yap/nlp/format/lattice"
+	"yu-val-weiss/yap/nlp/format/lattice"
 
-	nlp "yap/nlp/types"
+	nlp "yu-val-weiss/yap/nlp/types"
 
 	"fmt"
 	"log"
 
+	"flag"
+
 	"github.com/gonuts/commander"
-	"github.com/gonuts/flag"
 )
 
 func GoldSegConfigOut() {
@@ -41,12 +42,12 @@ func GenSegSequence(iAmbLat, iGoldLat interface{}) nlp.LatticeSentence {
 		sharedSpellouts := aLat.Spellouts.Intersect(gLat.Spellouts, "Form", lastTop)
 		// log.Println("Got shared", sharedSpellouts)
 		newLat := &nlp.Lattice{
-			aLat.Token,
-			sharedSpellouts.UniqueMorphemes(),
-			nil,
-			nil,
-			sharedSpellouts[0][0].From(),
-			sharedSpellouts[0][len(sharedSpellouts[0])-1].To(),
+			Token:     aLat.Token,
+			Morphemes: sharedSpellouts.UniqueMorphemes(),
+			Spellouts: nil,
+			Next:      nil,
+			BottomId:  sharedSpellouts[0][0].From(),
+			TopId:     sharedSpellouts[0][len(sharedSpellouts[0])-1].To(),
 		}
 
 		newLat.GenNexts(false)

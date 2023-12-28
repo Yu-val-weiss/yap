@@ -1,6 +1,6 @@
 package featurevector
 
-import "yap/util"
+import "yu-val-weiss/yap/util"
 
 // import "fmt"
 // import "log"
@@ -78,7 +78,7 @@ func (s *ArrayStore) SetTransitions(transitions []int) {
 func (s *ArrayStore) IncAll(store TransitionScoreStore, integrated bool) {
 	var val *HistoryValue
 	// log.Println("\t\tIncrementing for", len(s.DataArray), "transitions")
-	for i, _ := range s.DataArray {
+	for i := range s.DataArray {
 		val = store.GetValue(i)
 		if val != nil {
 			if integrated {

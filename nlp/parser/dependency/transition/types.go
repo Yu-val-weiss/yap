@@ -2,10 +2,11 @@ package transition
 
 import (
 	"fmt"
-	"yap/alg/graph"
-	"yap/alg/transition"
-	nlp "yap/nlp/types"
-	"yap/util"
+	"yu-val-weiss/yap/alg/graph"
+	"yu-val-weiss/yap/alg/transition"
+	nlp "yu-val-weiss/yap/nlp/types"
+	"yu-val-weiss/yap/util"
+
 	// "log"
 	"reflect"
 	"strings"

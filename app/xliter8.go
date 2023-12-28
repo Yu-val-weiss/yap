@@ -3,12 +3,13 @@ package app
 import (
 	"fmt"
 	"log"
-	"yap/nlp/format/raw"
-	"yap/nlp/parser/xliter8"
-	"yap/nlp/types"
+	"yu-val-weiss/yap/nlp/format/raw"
+	"yu-val-weiss/yap/nlp/parser/xliter8"
+	"yu-val-weiss/yap/nlp/types"
+
+	"flag"
 
 	"github.com/gonuts/commander"
-	"github.com/gonuts/flag"
 )
 
 var direction string

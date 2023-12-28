@@ -1,15 +1,18 @@
+//go:build !appengine
 // +build !appengine
 
 package main
 
 import (
+	"context"
 	_ "net/http/pprof"
+
 	"github.com/gonuts/commander"
 
 	"fmt"
 	"os"
-	"yap/app"
-	"yap/webapi"
+	"yu-val-weiss/yap/app"
+	"yu-val-weiss/yap/webapi"
 )
 
 var cmd = &commander.Command{
@@ -28,9 +31,8 @@ func exit(err error) {
 }
 
 func main() {
-	if err := cmd.Dispatch(os.Args[1:]); err != nil {
+	if err := cmd.Dispatch(context.Background(), os.Args[1:]); err != nil {
 		exit(err)
 	}
-
 	return
 }

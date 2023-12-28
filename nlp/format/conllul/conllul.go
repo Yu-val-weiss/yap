@@ -1,39 +1,39 @@
 package conllul
 
 import (
-	"errors"
-	"fmt"
-	"strings"
-	"log"
 	"bufio"
 	"bytes"
+	"errors"
+	"fmt"
 	"io"
+	"log"
 	"os"
-	"yap/nlp/format/lattice"
+	"strings"
+	"yu-val-weiss/yap/nlp/format/lattice"
 )
 
 type ConlluEdge struct {
-	Id int
-	Start    int
-	End      int
-	Lemma    string
-	Word     string
-	UPosTag  string
-	XPosTag   string
-	Feats    lattice.Features
+	Id      int
+	Start   int
+	End     int
+	Lemma   string
+	Word    string
+	UPosTag string
+	XPosTag string
+	Feats   lattice.Features
 	FeatStr string
 	TokenId int
 }
 
 type ConlluLattice struct {
-	Edges map[int][]ConlluEdge
+	Edges    map[int][]ConlluEdge
 	Tokens   []string
 	Comments []string
 }
 
 func NewConlluLattice() ConlluLattice {
 	return ConlluLattice{
-		Edges:     make(map[int][]ConlluEdge),
+		Edges:    make(map[int][]ConlluEdge),
 		Tokens:   []string{},
 		Comments: make([]string, 0, 2),
 	}
@@ -60,7 +60,7 @@ func ParseTokenRow(record []string) (string, int, int, error) {
 		return token, id1, id2, errors.New(fmt.Sprintf("Error parsing ID span field (%s): wrong format for ID span for token row - needs second num (%d) - first num (%d) > 0", record[0], id2, id1))
 	}
 
-	return token, id1,  id2, nil
+	return token, id1, id2, nil
 }
 
 func ParseEdge(record []string) (*ConlluEdge, error) {
@@ -96,8 +96,8 @@ func Read(r io.Reader, limit int) ([]ConlluLattice, error) {
 	var (
 		currentLatt ConlluLattice = NewConlluLattice()
 		currentEdge int
-		lineCount int
-		skip bool
+		lineCount   int
+		skip        bool
 	)
 	for curLineBuf, isPrefix, err := bufReader.ReadLine(); err == nil; curLineBuf, isPrefix, err = bufReader.ReadLine() {
 		if isPrefix {
@@ -114,7 +114,7 @@ func Read(r io.Reader, limit int) ([]ConlluLattice, error) {
 			skip = false
 			continue
 		} else if skip {
-			continue;
+			continue
 		}
 		buf := bytes.NewBuffer(curLineBuf)
 		line := buf.String()

@@ -2,7 +2,8 @@ package featurevector
 
 import (
 	"fmt"
-	"yap/util"
+	"yu-val-weiss/yap/util"
+
 	// "log"
 	"sort"
 	"strings"
@@ -323,8 +324,8 @@ func (v *AvgSparse) Deserialize(serialized interface{}, generation int) {
 	}
 	v.Vals = make(map[Feature]TransitionScoreStore, len(data))
 	allKeys := make(util.ByGeneric, 0, len(data))
-	for k, _ := range data {
-		allKeys = append(allKeys, util.Generic{fmt.Sprintf("%v", k), k})
+	for k := range data {
+		allKeys = append(allKeys, util.Generic{Key: fmt.Sprintf("%v", k), Value: k})
 	}
 	sort.Sort(allKeys)
 	for _, k := range allKeys {

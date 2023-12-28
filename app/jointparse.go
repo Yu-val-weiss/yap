@@ -1,34 +1,35 @@
 package app
 
 import (
-	"yap/alg/perceptron"
-	"yap/alg/search"
-	"yap/alg/transition"
-	transitionmodel "yap/alg/transition/model"
-	"yap/nlp/format/conll"
-	"yap/nlp/format/conllu"
-	"yap/nlp/format/lattice"
-	"yap/nlp/format/mapping"
-	"yap/nlp/format/segmentation"
-	. "yap/nlp/parser/dependency/transition"
-	"yap/nlp/parser/dependency/transition/morph"
-	"yap/nlp/parser/disambig"
-	"yap/nlp/parser/joint"
-	nlp "yap/nlp/types"
-	"yap/util"
-	"yap/util/conf"
+	"yu-val-weiss/yap/alg/perceptron"
+	"yu-val-weiss/yap/alg/search"
+	"yu-val-weiss/yap/alg/transition"
+	transitionmodel "yu-val-weiss/yap/alg/transition/model"
+	"yu-val-weiss/yap/nlp/format/conll"
+	"yu-val-weiss/yap/nlp/format/conllu"
+	"yu-val-weiss/yap/nlp/format/lattice"
+	"yu-val-weiss/yap/nlp/format/mapping"
+	"yu-val-weiss/yap/nlp/format/segmentation"
+	deptransition "yu-val-weiss/yap/nlp/parser/dependency/transition"
+	"yu-val-weiss/yap/nlp/parser/dependency/transition/morph"
+	"yu-val-weiss/yap/nlp/parser/disambig"
+	"yu-val-weiss/yap/nlp/parser/joint"
+	nlp "yu-val-weiss/yap/nlp/types"
+	"yu-val-weiss/yap/util"
+	"yu-val-weiss/yap/util/conf"
 
 	"fmt"
 	"log"
 	"os"
 
+	"flag"
+
 	"github.com/gonuts/commander"
-	"github.com/gonuts/flag"
 )
 
 var (
-	JointFeaturesFile			string
-	JointModelFile				string
+	JointFeaturesFile             string
+	JointModelFile                string
 	JointStrategy, OracleStrategy string
 	limitdev                      int
 	hebMACompat                   bool
@@ -49,7 +50,7 @@ func SetupEnum(relations []string) {
 
 func CombineJointCorpus(graphs, goldLats, ambLats []interface{}) ([]interface{}, int) {
 	if len(graphs) != len(goldLats) || len(graphs) != len(ambLats) {
-		panic(fmt.Sprintf("Got mismatched training slice inputs (graphs, gold lattices, ambiguous lattices):", len(graphs), len(goldLats), len(ambLats)))
+		panic(fmt.Sprint("Got mismatched training slice inputs (graphs, gold lattices, ambiguous lattices):", len(graphs), len(goldLats), len(ambLats)))
 	}
 	morphGraphs := make([]interface{}, len(graphs))
 	var (
@@ -71,7 +72,7 @@ func CombineJointCorpus(graphs, goldLats, ambLats []interface{}) ([]interface{},
 
 func CombineToGoldMorphs(goldLats, ambLats []interface{}) ([]interface{}, int) {
 	if len(goldLats) != len(ambLats) {
-		panic(fmt.Sprintf("Got mismatched training slice inputs (gold lattices, ambiguous lattices):", len(goldLats), len(ambLats)))
+		panic(fmt.Sprint("Got mismatched training slice inputs (gold lattices, ambiguous lattices):", len(goldLats), len(ambLats)))
 	}
 	morphGraphs := make([]interface{}, len(goldLats))
 	var (
@@ -195,11 +196,11 @@ func JointTrainAndParse(cmd *commander.Command, args []string) error {
 
 	switch DepArcSystemStr {
 	case "standard":
-		arcSystem = &ArcStandard{}
+		arcSystem = &deptransition.ArcStandard{}
 		terminalStack = 1
 	case "eager":
-		arcSystem = &ArcEager{
-			ArcStandard: ArcStandard{},
+		arcSystem = &deptransition.ArcEager{
+			ArcStandard: deptransition.ArcStandard{},
 		}
 		terminalStack = 0
 	default:
@@ -257,7 +258,7 @@ func JointTrainAndParse(cmd *commander.Command, args []string) error {
 	// DON'T REMOVE!!
 	switch DepArcSystemStr {
 	case "standard":
-		arcSystem = &ArcStandard{
+		arcSystem = &deptransition.ArcStandard{
 			SHIFT:       SH.Value(),
 			LEFT:        LA.Value(),
 			RIGHT:       RA.Value(),
@@ -265,8 +266,8 @@ func JointTrainAndParse(cmd *commander.Command, args []string) error {
 			Relations:   ERel,
 		}
 	case "eager":
-		arcSystem = &ArcEager{
-			ArcStandard: ArcStandard{
+		arcSystem = &deptransition.ArcEager{
+			ArcStandard: deptransition.ArcStandard{
 				SHIFT:       SH.Value(),
 				LEFT:        LA.Value(),
 				RIGHT:       RA.Value(),
@@ -431,7 +432,7 @@ func JointTrainAndParse(cmd *commander.Command, args []string) error {
 		}
 		formatters := make([]util.Format, 0, 100)
 		for _, g := range groups {
-			group, _ := extractor.TransTypeGroups[g]
+			group := extractor.TransTypeGroups[g]
 			for _, formatter := range group.FeatureTemplates {
 				formatters = append(formatters, formatter)
 			}
@@ -447,7 +448,7 @@ func JointTrainAndParse(cmd *commander.Command, args []string) error {
 		// }
 
 		conf := &joint.JointConfig{
-			SimpleConfiguration: SimpleConfiguration{
+			SimpleConfiguration: deptransition.SimpleConfiguration{
 				EWord:         EWord,
 				EPOS:          EPOS,
 				EWPOS:         EWPOS,
@@ -655,7 +656,7 @@ func JointTrainAndParse(cmd *commander.Command, args []string) error {
 		}
 		switch DepArcSystemStr {
 		case "standard":
-			arcSystem = &ArcStandard{
+			arcSystem = &deptransition.ArcStandard{
 				SHIFT:       SH.Value(),
 				LEFT:        LA.Value(),
 				RIGHT:       RA.Value(),
@@ -663,8 +664,8 @@ func JointTrainAndParse(cmd *commander.Command, args []string) error {
 				Relations:   ERel,
 			}
 		case "eager":
-			arcSystem = &ArcEager{
-				ArcStandard: ArcStandard{
+			arcSystem = &deptransition.ArcEager{
+				ArcStandard: deptransition.ArcStandard{
 					SHIFT:       SH.Value(),
 					LEFT:        LA.Value(),
 					RIGHT:       RA.Value(),
@@ -755,7 +756,7 @@ func JointTrainAndParse(cmd *commander.Command, args []string) error {
 		}
 	}
 	conf := &joint.JointConfig{
-		SimpleConfiguration: SimpleConfiguration{
+		SimpleConfiguration: deptransition.SimpleConfiguration{
 			EWord:         EWord,
 			EPOS:          EPOS,
 			EWPOS:         EWPOS,

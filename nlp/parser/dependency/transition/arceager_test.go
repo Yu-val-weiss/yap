@@ -1,9 +1,9 @@
 package transition
 
 import (
-	. "yap/alg/transition"
-	nlp "yap/nlp/types"
-	"yap/util"
+	. "yu-val-weiss/yap/alg/transition"
+	nlp "yu-val-weiss/yap/nlp/types"
+	"yu-val-weiss/yap/util"
 	// "reflect"
 	// "testing"
 )

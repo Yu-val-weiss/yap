@@ -1,26 +1,28 @@
 package app
 
 import (
-	// "yap/alg/featurevector"
+	// "yu-val-weiss/yap/alg/featurevector"
 	"fmt"
-	"yap/alg/perceptron"
-	"yap/alg/search"
-	"yap/alg/transition"
-	transitionmodel "yap/alg/transition/model"
-	"yap/nlp/format/conll"
-	"yap/nlp/format/conllu"
-	"yap/nlp/format/lattice"
-	. "yap/nlp/parser/dependency/transition"
-	nlp "yap/nlp/types"
-	"yap/util"
-	"yap/util/conf"
+	"yu-val-weiss/yap/alg/perceptron"
+	"yu-val-weiss/yap/alg/search"
+	"yu-val-weiss/yap/alg/transition"
+	transitionmodel "yu-val-weiss/yap/alg/transition/model"
+	"yu-val-weiss/yap/nlp/format/conll"
+	"yu-val-weiss/yap/nlp/format/conllu"
+	"yu-val-weiss/yap/nlp/format/lattice"
+	deptransition "yu-val-weiss/yap/nlp/parser/dependency/transition"
+	nlp "yu-val-weiss/yap/nlp/types"
+	"yu-val-weiss/yap/util"
+	"yu-val-weiss/yap/util/conf"
 
 	"log"
 	"os"
+
 	// "strings"
 
+	"flag"
+
 	"github.com/gonuts/commander"
-	"github.com/gonuts/flag"
 )
 
 var (
@@ -112,10 +114,10 @@ func DepTrainAndParse(cmd *commander.Command, args []string) error {
 	)
 	switch DepArcSystemStr {
 	case "standard":
-		arcSystem = &ArcStandard{}
+		arcSystem = &deptransition.ArcStandard{}
 		terminalStack = 1
 	case "eager":
-		arcSystem = &ArcEager{}
+		arcSystem = &deptransition.ArcEager{}
 		terminalStack = 0
 	default:
 		panic("Unknown arc system")
@@ -184,7 +186,7 @@ func DepTrainAndParse(cmd *commander.Command, args []string) error {
 	// therefore we re-instantiate the arc system with the right parameters
 	switch DepArcSystemStr {
 	case "standard":
-		arcSystem = &ArcStandard{
+		arcSystem = &deptransition.ArcStandard{
 			SHIFT:       SH.Value(),
 			LEFT:        LA.Value(),
 			RIGHT:       RA.Value(),
@@ -192,8 +194,8 @@ func DepTrainAndParse(cmd *commander.Command, args []string) error {
 			Relations:   ERel,
 		}
 	case "eager":
-		arcSystem = &ArcEager{
-			ArcStandard: ArcStandard{
+		arcSystem = &deptransition.ArcEager{
+			ArcStandard: deptransition.ArcStandard{
 				SHIFT:       SH.Value(),
 				LEFT:        LA.Value(),
 				RIGHT:       RA.Value(),
@@ -228,7 +230,7 @@ func DepTrainAndParse(cmd *commander.Command, args []string) error {
 	}
 	extractor := SetupExtractor(featureSetup, []byte("A"))
 	// extractor.Log = true
-	group, _ := extractor.TransTypeGroups['A']
+	group := extractor.TransTypeGroups['A']
 	formatters := make([]util.Format, len(group.FeatureTemplates))
 	for i, formatter := range group.FeatureTemplates {
 		formatters[i] = formatter
@@ -328,7 +330,7 @@ func DepTrainAndParse(cmd *commander.Command, args []string) error {
 		model = transitionmodel.NewAvgMatrixSparse(featureSetup.NumFeatures(), formatters, true)
 		// model.Log = true
 
-		conf := &SimpleConfiguration{
+		conf := &deptransition.SimpleConfiguration{
 			EWord:         EWord,
 			EPOS:          EPOS,
 			EWPOS:         EWPOS,
@@ -554,7 +556,7 @@ func DepTrainAndParse(cmd *commander.Command, args []string) error {
 		}
 	}
 
-	conf := &SimpleConfiguration{
+	conf := &deptransition.SimpleConfiguration{
 		EWord:         EWord,
 		EPOS:          EPOS,
 		EWPOS:         EWPOS,

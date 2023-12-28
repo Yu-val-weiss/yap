@@ -1,6 +1,6 @@
 package graph
 
-import "yap/util"
+import "yu-val-weiss/yap/util"
 
 type Vertex interface {
 	util.Equaler

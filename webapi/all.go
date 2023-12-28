@@ -1,9 +1,11 @@
 package webapi
 
 import (
+	"yu-val-weiss/yap/app"
+
+	"flag"
+
 	"github.com/gonuts/commander"
-	"github.com/gonuts/flag"
-	"yap/app"
 )
 
 var ApiCommands = []*commander.Command{

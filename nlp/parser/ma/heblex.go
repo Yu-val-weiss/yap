@@ -1,10 +1,10 @@
 package ma
 
 import (
-	"yap/alg/graph"
-	"yap/nlp/format/lex"
-	. "yap/nlp/types"
-	"yap/util"
+	"yu-val-weiss/yap/alg/graph"
+	"yu-val-weiss/yap/nlp/format/lex"
+	. "yu-val-weiss/yap/nlp/types"
+	"yu-val-weiss/yap/util"
 
 	"fmt"
 	"log"

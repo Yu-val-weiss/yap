@@ -1,35 +1,35 @@
 package webapi
 
 import (
-	"log"
-	"yap/nlp/format/conll"
-	"yap/nlp/parser/disambig"
-	"yap/nlp/parser/joint"
-	"yap/alg/search"
-	"yap/util/conf"
-	"yap/nlp/format/lattice"
-	nlp "yap/nlp/types"
-	transitionmodel "yap/alg/transition/model"
-	. "yap/nlp/parser/dependency/transition"
-	"yap/app"
-	"yap/alg/transition"
-	"fmt"
 	"bytes"
-	"yap/nlp/format/mapping"
-	"yap/nlp/format/segmentation"
-	"yap/util"
+	"fmt"
+	"log"
 	"strings"
 	"sync"
+	"yu-val-weiss/yap/alg/search"
+	"yu-val-weiss/yap/alg/transition"
+	transitionmodel "yu-val-weiss/yap/alg/transition/model"
+	"yu-val-weiss/yap/app"
+	"yu-val-weiss/yap/nlp/format/conll"
+	"yu-val-weiss/yap/nlp/format/lattice"
+	"yu-val-weiss/yap/nlp/format/mapping"
+	"yu-val-weiss/yap/nlp/format/segmentation"
+	. "yu-val-weiss/yap/nlp/parser/dependency/transition"
+	"yu-val-weiss/yap/nlp/parser/disambig"
+	"yu-val-weiss/yap/nlp/parser/joint"
+	nlp "yu-val-weiss/yap/nlp/types"
+	"yu-val-weiss/yap/util"
+	"yu-val-weiss/yap/util/conf"
 )
 
 var (
-	extractor *transition.GenericExtractor
-	arcSystem transition.TransitionSystem
+	extractor        *transition.GenericExtractor
+	arcSystem        transition.TransitionSystem
 	transitionSystem transition.TransitionSystem
-	model *transitionmodel.AvgMatrixSparse
-	terminalStack int
-	paramFunc nlp.MDParam
-	jointLock sync.Mutex
+	model            *transitionmodel.AvgMatrixSparse
+	terminalStack    int
+	paramFunc        nlp.MDParam
+	jointLock        sync.Mutex
 )
 
 func JointParserInitialize() {
@@ -162,7 +162,7 @@ func JointParserInitialize() {
 func JointParseAmbiguousLattices(input string) (string, string, string) {
 	jointLock.Lock()
 	log.Println("Reading ambiguous lattices")
-	log.Println("input:\n",input)
+	log.Println("input:\n", input)
 	reader := strings.NewReader(input)
 	lAmb, lAmbE := lattice.Read(reader, 0)
 	if lAmbE != nil {
@@ -171,31 +171,31 @@ func JointParseAmbiguousLattices(input string) (string, string, string) {
 	predAmbLat := lattice.Lattice2SentenceCorpus(lAmb, app.EWord, app.EPOS, app.EWPOS, app.EMorphProp, app.EMHost, app.EMSuffix)
 	conf := &joint.JointConfig{
 		SimpleConfiguration: SimpleConfiguration{
-			EWord: app.EWord,
-			EPOS: app.EPOS,
-			EWPOS: app.EWPOS,
-			EMHost: app.EMHost,
-			EMSuffix: app.EMSuffix,
-			ERel: app.ERel,
-			ETrans: app.ETrans,
+			EWord:         app.EWord,
+			EPOS:          app.EPOS,
+			EWPOS:         app.EWPOS,
+			EMHost:        app.EMHost,
+			EMSuffix:      app.EMSuffix,
+			ERel:          app.ERel,
+			ETrans:        app.ETrans,
 			TerminalStack: terminalStack,
 			TerminalQueue: 0,
 		},
 		MDConfig: disambig.MDConfig{
-			ETokens: app.ETokens,
-			POP: app.POP,
+			ETokens:     app.ETokens,
+			POP:         app.POP,
 			Transitions: app.ETrans,
-			ParamFunc: paramFunc,
+			ParamFunc:   paramFunc,
 		},
 		MDTrans: app.MD,
 	}
 	beam := &search.Beam{
-		TransFunc: transitionSystem,
-		FeatExtractor: extractor,
-		Base: conf,
-		Size: app.BeamSize,
-		ConcurrentExec: app.ConcurrentBeam,
-		Transitions: app.ETrans,
+		TransFunc:            transitionSystem,
+		FeatExtractor:        extractor,
+		Base:                 conf,
+		Size:                 app.BeamSize,
+		ConcurrentExec:       app.ConcurrentBeam,
+		Transitions:          app.ETrans,
 		EstimatedTransitions: 1000, // chosen by random dice roll
 	}
 	beam.Model = model

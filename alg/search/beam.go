@@ -7,13 +7,13 @@ import (
 	"strings"
 	"sync"
 	"time"
-	"yap/alg/featurevector"
-	"yap/alg/perceptron"
-	"yap/alg/rlheap"
-	"yap/alg/stlheap"
-	"yap/alg/transition"
-	TransitionModel "yap/alg/transition/model"
-	"yap/util"
+	"yu-val-weiss/yap/alg/featurevector"
+	"yu-val-weiss/yap/alg/perceptron"
+	"yu-val-weiss/yap/alg/rlheap"
+	"yu-val-weiss/yap/alg/stlheap"
+	"yu-val-weiss/yap/alg/transition"
+	TransitionModel "yu-val-weiss/yap/alg/transition/model"
+	"yu-val-weiss/yap/util"
 )
 
 var (

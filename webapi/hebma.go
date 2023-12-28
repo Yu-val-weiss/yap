@@ -1,26 +1,27 @@
 package webapi
 
 import (
-	"yap/nlp/format/lattice"
-	"yap/nlp/format/raw"
-	"log"
-	"fmt"
-	nlp "yap/nlp/types"
-	"yap/util"
-	"yap/nlp/parser/ma"
-	"yap/app"
-	"strings"
-	"io"
-	"github.com/gonuts/commander"
 	"bytes"
-	"yap/nlp/parser/xliter8"
+	"fmt"
+	"io"
+	"log"
+	"strings"
 	"sync"
+	"yu-val-weiss/yap/app"
+	"yu-val-weiss/yap/nlp/format/lattice"
+	"yu-val-weiss/yap/nlp/format/raw"
+	"yu-val-weiss/yap/nlp/parser/ma"
+	"yu-val-weiss/yap/nlp/parser/xliter8"
+	nlp "yu-val-weiss/yap/nlp/types"
+	"yu-val-weiss/yap/util"
+
+	"github.com/gonuts/commander"
 )
 
 var (
-	maLock sync.Mutex
+	maLock   sync.Mutex
 	maHebrew xliter8.Interface
-	maData *ma.BGULex
+	maData   *ma.BGULex
 )
 
 func HebrewMorphAnalyazerInitialize(cmd *commander.Command, args []string) {
@@ -51,8 +52,8 @@ func HebrewMorphAnalyzeRawSentences(input string) string {
 	maLock.Lock()
 	var (
 		reader io.Reader
-		sents []nlp.BasicSentence
-		err error
+		sents  []nlp.BasicSentence
+		err    error
 	)
 	reader = strings.NewReader(input)
 	sents, err = raw.Read(reader, 0)
@@ -60,7 +61,7 @@ func HebrewMorphAnalyzeRawSentences(input string) string {
 		panic(fmt.Sprintf("Failed reading raw input - %v", err))
 	}
 	log.Println("Running Hebrew Morphological Analysis")
-	log.Println("input:\n",input)
+	log.Println("input:\n", input)
 	stats := new(ma.AnalyzeStats)
 	stats.Init()
 	maData.Stats = stats

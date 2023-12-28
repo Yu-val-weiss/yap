@@ -1,14 +1,15 @@
 package mapping
 
 import (
-	"yap/nlp/parser/disambig"
-	nlp "yap/nlp/types"
+	"yu-val-weiss/yap/nlp/parser/disambig"
+	nlp "yu-val-weiss/yap/nlp/types"
 
 	"fmt"
 	"io"
 	"os"
+
 	// "log"
-	"yap/nlp/format/conllul"
+	"yu-val-weiss/yap/nlp/format/conllul"
 )
 
 func UDWriteMorph(writer io.Writer, morph *nlp.EMorpheme, curMorph int) {

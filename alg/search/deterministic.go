@@ -4,13 +4,13 @@ import (
 	"fmt"
 	"log"
 	"sort"
-	"yap/alg/featurevector"
-	"yap/alg/perceptron"
-	"yap/alg/transition"
-	TransitionModel "yap/alg/transition/model"
-	"yap/nlp/parser/dependency"
-	nlp "yap/nlp/types"
-	"yap/util"
+	"yu-val-weiss/yap/alg/featurevector"
+	"yu-val-weiss/yap/alg/perceptron"
+	"yu-val-weiss/yap/alg/transition"
+	TransitionModel "yu-val-weiss/yap/alg/transition/model"
+	"yu-val-weiss/yap/nlp/parser/dependency"
+	nlp "yu-val-weiss/yap/nlp/types"
+	"yu-val-weiss/yap/util"
 )
 
 var SHOW_ORACLE = false
@@ -25,7 +25,7 @@ type Deterministic struct {
 	Base               transition.Configuration
 	NoRecover          bool
 	TransEnum          *util.EnumSet
-	DefaultTransType  byte
+	DefaultTransType   byte
 }
 
 var _ perceptron.InstanceDecoder = &Deterministic{}
@@ -266,13 +266,12 @@ func (tc *TransitionClassifier) Init() {
 	tc.Score = 0.0
 }
 
-// func (tc *TransitionClassifier) Increment(c transition.Configuration) *TransitionClassifier {
-// 	features := tc.FeatExtractor.Features(perceptron.Instance(c), false, nil)
-// 	tc.FeaturesList = &transition.FeaturesList{features, c.GetLastTransition(), tc.FeaturesList}
-// 	tc.Score += tc.Model.TransitionScore(c.GetLastTransition(), features)
-// 	return tc
-// }
-//
+//	func (tc *TransitionClassifier) Increment(c transition.Configuration) *TransitionClassifier {
+//		features := tc.FeatExtractor.Features(perceptron.Instance(c), false, nil)
+//		tc.FeaturesList = &transition.FeaturesList{features, c.GetLastTransition(), tc.FeaturesList}
+//		tc.Score += tc.Model.TransitionScore(c.GetLastTransition(), features)
+//		return tc
+//	}
 func (tc *TransitionClassifier) ScoreWithConf(c transition.Configuration) int64 {
 	features := tc.FeatExtractor.Features(perceptron.Instance(c), false, c.GetLastTransition().Type(), nil)
 	return tc.Score + tc.Model.TransitionScore(c.GetLastTransition(), features)

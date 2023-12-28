@@ -1,8 +1,8 @@
 package types
 
 import (
-	G "yap/alg/graph"
 	"testing"
+	G "yu-val-weiss/yap/alg/graph"
 )
 
 var testLat *Lattice = &Lattice{

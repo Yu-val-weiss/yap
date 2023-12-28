@@ -1,10 +1,10 @@
 package transition
 
 import (
-	. "yap/alg"
+	. "yu-val-weiss/yap/alg"
 	// "log"
-	// nlp "yap/nlp/types"
-	// "yap/util"
+	// nlp "yu-val-weiss/yap/nlp/types"
+	// "yu-val-weiss/yap/util"
 	// "math"
 	// "regexp"
 	// "sort"

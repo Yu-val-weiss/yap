@@ -1,15 +1,16 @@
 package disambig
 
 import (
-	// "yap/alg/graph"
-	. "yap/alg"
-	"yap/alg/featurevector"
-	. "yap/alg/transition"
-	nlp "yap/nlp/types"
-	"yap/util"
+	// "yu-val-weiss/yap/alg/graph"
+	. "yu-val-weiss/yap/alg"
+	"yu-val-weiss/yap/alg/featurevector"
+	. "yu-val-weiss/yap/alg/transition"
+	nlp "yu-val-weiss/yap/nlp/types"
+	"yu-val-weiss/yap/util"
 
 	"fmt"
 	"log"
+
 	// "reflect"
 	"sort"
 	"strings"

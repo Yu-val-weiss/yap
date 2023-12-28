@@ -1,8 +1,8 @@
 package transition
 
 import (
-	. "yap/nlp/types"
 	"testing"
+	. "yu-val-weiss/yap/nlp/types"
 )
 
 type StackArrayTest struct {

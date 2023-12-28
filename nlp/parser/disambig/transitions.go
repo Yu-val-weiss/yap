@@ -1,9 +1,9 @@
 package disambig
 
 import (
-	. "yap/alg/transition"
-	. "yap/nlp/types"
-	"yap/util"
+	. "yu-val-weiss/yap/alg/transition"
+	. "yu-val-weiss/yap/nlp/types"
+	"yu-val-weiss/yap/util"
 
 	"fmt"
 	"log"

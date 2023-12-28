@@ -1,8 +1,8 @@
 package dependency
 
 import (
-	TransitionModel "yap/alg/transition/model"
-	. "yap/nlp/types"
+	TransitionModel "yu-val-weiss/yap/alg/transition/model"
+	. "yu-val-weiss/yap/nlp/types"
 )
 
 type ConstraintModel interface{}

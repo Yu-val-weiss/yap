@@ -1,7 +1,7 @@
 package transition
 
 // import (
-// 	"yap/algmodel/perceptron"
+// 	"yu-val-weiss/yap/algmodel/perceptron"
 // 	"strings"
 // 	"testing"
 // )

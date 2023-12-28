@@ -10,16 +10,17 @@ import (
 	"fmt"
 	"io"
 	"log"
-	//"yap/nlp/format/lattice"
+
+	//"yu-val-weiss/yap/nlp/format/lattice"
 
 	// "log"
 	"os"
 	"sort"
 	"strconv"
 	"strings"
-	"yap/nlp/parser/dependency/transition"
-	nlp "yap/nlp/types"
-	"yap/util"
+	"yu-val-weiss/yap/nlp/parser/dependency/transition"
+	nlp "yu-val-weiss/yap/nlp/types"
+	"yu-val-weiss/yap/util"
 )
 
 const (
@@ -31,7 +32,7 @@ const (
 )
 
 var (
-	WORD_TYPE    = "form"
+	WORD_TYPE = "form"
 	//IGNORE_LEMMA bool
 )
 
@@ -174,11 +175,11 @@ func ParseRow(record []string) (Row, error) {
 	row.Form = form
 
 	//if !lattice.IGNORE_LEMMA {
-		lemma := ParseString(record[2])
-		// if lemma == "" {
-		// 	return row, errors.New("Empty LEMMA field")
-		// }
-		row.Lemma = lemma
+	lemma := ParseString(record[2])
+	// if lemma == "" {
+	// 	return row, errors.New("Empty LEMMA field")
+	// }
+	row.Lemma = lemma
 	//}
 
 	cpostag := ParseString(record[3])
@@ -436,10 +437,10 @@ func Graph2Conll(graph nlp.LabeledDependencyGraph, eMHost, eMSuffix *util.EnumSe
 		}
 		posTag = taggedToken.RawPOS
 		//if !lattice.IGNORE_LEMMA {
-			lemma = taggedToken.RawLemma
-			if lemma == "" {
-				lemma = "_"
-			}
+		lemma = taggedToken.RawLemma
+		if lemma == "" {
+			lemma = "_"
+		}
 		//} else {
 		//	lemma = "_"
 		//}

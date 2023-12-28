@@ -1,13 +1,13 @@
 package joint
 
 import (
-	. "yap/alg"
-	"yap/alg/search"
-	"yap/alg/transition"
-	dep "yap/nlp/parser/dependency/transition"
-	"yap/nlp/parser/disambig"
-	nlp "yap/nlp/types"
-	"yap/util"
+	. "yu-val-weiss/yap/alg"
+	"yu-val-weiss/yap/alg/search"
+	"yu-val-weiss/yap/alg/transition"
+	dep "yu-val-weiss/yap/nlp/parser/dependency/transition"
+	"yu-val-weiss/yap/nlp/parser/disambig"
+	nlp "yu-val-weiss/yap/nlp/types"
+	"yu-val-weiss/yap/util"
 
 	"fmt"
 	// "log"

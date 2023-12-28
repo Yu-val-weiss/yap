@@ -10,10 +10,10 @@ import (
 	"sort"
 	"strings"
 
-	"yap/alg/graph"
-	"yap/nlp/parser/xliter8"
-	"yap/nlp/types"
-	"yap/util"
+	"yu-val-weiss/yap/alg/graph"
+	"yu-val-weiss/yap/nlp/parser/xliter8"
+	"yu-val-weiss/yap/nlp/types"
+	"yu-val-weiss/yap/util"
 )
 
 const (

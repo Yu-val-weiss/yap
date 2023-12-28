@@ -2,21 +2,24 @@ package app
 
 import (
 	"os"
-	"yap/nlp/format/conllu"
-	"yap/nlp/format/lattice"
-	"yap/nlp/format/raw"
+	"yu-val-weiss/yap/nlp/format/conllu"
+	"yu-val-weiss/yap/nlp/format/lattice"
+	"yu-val-weiss/yap/nlp/format/raw"
 
-	"yap/nlp/parser/ma"
-	nlp "yap/nlp/types"
-	// "yap/util"
+	"yu-val-weiss/yap/nlp/parser/ma"
+	nlp "yu-val-weiss/yap/nlp/types"
+
+	// "yu-val-weiss/yap/util"
 
 	"fmt"
 	"log"
+
 	// "os"
 	"strings"
 
+	"flag"
+
 	"github.com/gonuts/commander"
-	"github.com/gonuts/flag"
 )
 
 var (
@@ -102,7 +105,7 @@ func MA(cmd *commander.Command, args []string) error {
 		sents, err = raw.ReadFile(inRawFile, limit)
 		sentComments = make([][]string, len(sents))
 		for i, sent := range sents {
-			sentComments[i] = []string{fmt.Sprintf("# text %s", strings.Join(sent.Tokens(), " ")) }
+			sentComments[i] = []string{fmt.Sprintf("# text %s", strings.Join(sent.Tokens(), " "))}
 		}
 		if err != nil {
 			panic(fmt.Sprintf("Failed reading raw file - %v", err))

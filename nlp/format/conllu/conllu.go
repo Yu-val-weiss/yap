@@ -6,11 +6,11 @@ package conllu
 // https://universaldependencies.github.io/docs/format.html
 
 import (
-	"yap/alg/graph"
-	"yap/nlp/parser/dependency/transition"
-	morphtypes "yap/nlp/parser/dependency/transition/morph"
-	nlp "yap/nlp/types"
-	"yap/util"
+	"yu-val-weiss/yap/alg/graph"
+	"yu-val-weiss/yap/nlp/parser/dependency/transition"
+	morphtypes "yu-val-weiss/yap/nlp/parser/dependency/transition/morph"
+	nlp "yu-val-weiss/yap/nlp/types"
+	"yu-val-weiss/yap/util"
 
 	"bufio"
 	"bytes"

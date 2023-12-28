@@ -1,35 +1,37 @@
 package app
 
 import (
-	"yap/alg/perceptron"
-	"yap/alg/search"
-	"yap/alg/transition"
+	"yu-val-weiss/yap/alg/perceptron"
+	"yu-val-weiss/yap/alg/search"
+	"yu-val-weiss/yap/alg/transition"
 
-	"yap/alg/transition/model"
-	// dep "yap/nlp/parser/dependency/transition"
-	"yap/eval"
-	"yap/nlp/format/conll"
-	"yap/nlp/format/mapping"
-	"yap/nlp/format/raw"
-	"yap/nlp/format/segmentation"
-	"yap/nlp/parser/disambig"
-	"yap/nlp/parser/joint"
-	nlp "yap/nlp/types"
-	"yap/util"
+	"yu-val-weiss/yap/alg/transition/model"
+	// dep "yu-val-weiss/yap/nlp/parser/dependency/transition"
+	"yu-val-weiss/yap/eval"
+	"yu-val-weiss/yap/nlp/format/conll"
+	"yu-val-weiss/yap/nlp/format/mapping"
+	"yu-val-weiss/yap/nlp/format/raw"
+	"yu-val-weiss/yap/nlp/format/segmentation"
+	"yu-val-weiss/yap/nlp/parser/disambig"
+	"yu-val-weiss/yap/nlp/parser/joint"
+	nlp "yu-val-weiss/yap/nlp/types"
+	"yu-val-weiss/yap/util"
 
-	dep "yap/nlp/parser/dependency/transition"
-	"yap/nlp/parser/dependency/transition/morph"
+	dep "yu-val-weiss/yap/nlp/parser/dependency/transition"
+	"yu-val-weiss/yap/nlp/parser/dependency/transition/morph"
 
 	"encoding/gob"
 	"fmt"
 	"log"
 	"os"
+
 	// "runtime"
 	"time"
 	// "strings"
 
+	"yu-val-weiss/yap/nlp/format/conllu"
+
 	"github.com/gonuts/commander"
-	"yap/nlp/format/conllu"
 )
 
 func init() {
@@ -233,7 +235,7 @@ func SetupMorphTransEnum(relations []string) {
 	}
 	log.Println("ETrans Len is", ETrans.Len())
 	iPOP, _ := ETrans.Add("POP")
-	POP = &transition.TypedTransition{'P', iPOP}
+	POP = &transition.TypedTransition{T: 'P', V: iPOP}
 	MD = transition.ConstTransition(ETrans.Len())
 
 	MdETrans = util.NewEnumSet((len(relations)+1)*2 + 2 + APPROX_MORPH_TRANSITIONS)
@@ -256,12 +258,7 @@ func SetupMorphTransEnum(relations []string) {
 
 func VerifyExists(filename string) bool {
 	_, err := os.Stat(filename)
-	if err != nil {
-		//log.Println("Error accessing file", filename)
-		//log.Println(err)
-		return false
-	}
-	return true
+	return err == nil
 }
 
 func VerifyFlags(cmd *commander.Command, required []string) {
@@ -317,7 +314,7 @@ func TrainingSequences(trainingSet []interface{}, instFunc InstanceFunc, goldFun
 	for _, instance := range trainingSet {
 		// log.Println("At training", i)
 
-		decoded := &perceptron.Decoded{instFunc(instance), goldFunc(instance)}
+		decoded := &perceptron.Decoded{InstanceVal: instFunc(instance), DecodedVal: goldFunc(instance)}
 		instances = append(instances, decoded)
 	}
 	return instances
@@ -830,7 +827,11 @@ func MakeJointEvalStopCondition(instances []interface{}, goldInstances []interfa
 			log.Println("Best model file", bestModelFile)
 
 			file, err := os.Create("bestmodelname")
-			defer file.Close()
+			defer func() {
+				if err := file.Close(); err != nil {
+					log.Fatal(err)
+				}
+			}()
 			if err != nil {
 				log.Println("Failed to write name of best model:", err)
 			} else {

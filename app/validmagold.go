@@ -1,19 +1,20 @@
 package app
 
 import (
-	"yap/alg/perceptron"
-	"yap/alg/search"
-	"yap/alg/transition"
-	"yap/nlp/format/lattice"
-	"yap/nlp/parser/disambig"
+	"yu-val-weiss/yap/alg/perceptron"
+	"yu-val-weiss/yap/alg/search"
+	"yu-val-weiss/yap/alg/transition"
+	"yu-val-weiss/yap/nlp/format/lattice"
+	"yu-val-weiss/yap/nlp/parser/disambig"
 
-	nlp "yap/nlp/types"
+	nlp "yu-val-weiss/yap/nlp/types"
 
 	"fmt"
 	"log"
 
+	"flag"
+
 	"github.com/gonuts/commander"
-	"github.com/gonuts/flag"
 )
 
 var (
@@ -89,8 +90,8 @@ func genInstance(goldLat, ambLat nlp.LatticeSentence) *disambig.MDConfig {
 			continue
 		}
 		mapping := &nlp.Mapping{
-			lat.Token,
-			lat.Spellouts[0],
+			Token:    lat.Token,
+			Spellout: lat.Spellouts[0],
 		}
 		mappings[i] = mapping
 	}
@@ -117,8 +118,7 @@ func ValidMAGold(cmd *commander.Command, args []string) error {
 	if !exists {
 		log.Fatalln("Param Func", vmaParamFuncName, "does not exist")
 	}
-	var mdTrans transition.TransitionSystem
-	mdTrans = &disambig.MDTrans{
+	mdTrans := &disambig.MDTrans{
 		ParamFunc: paramFunc,
 	}
 
@@ -138,8 +138,14 @@ func ValidMAGold(cmd *commander.Command, args []string) error {
 		log.Println("Setup enumerations")
 	}
 	SetupMDEnum()
-	mdTrans.(*disambig.MDTrans).POP = POP
-	mdTrans.(*disambig.MDTrans).Transitions = ETrans
+	// mdTrans.(*disambig.MDTrans).POP = POP
+	// mdTrans.(*disambig.MDTrans).Transitions = ETrans
+
+	mdTrans = &disambig.MDTrans{
+		ParamFunc:   paramFunc,
+		POP:         POP,
+		Transitions: ETrans,
+	}
 	mdTrans.AddDefaultOracle()
 
 	if allOut {

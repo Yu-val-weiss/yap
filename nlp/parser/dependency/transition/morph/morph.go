@@ -1,12 +1,12 @@
 package morph
 
 // import (
-// 	. "yap/alg"
-// 	// G "yap/alg/graph"
-// 	"yap/alg/transition"
-// 	. "yap/nlp/parser/dependency/transition"
-// 	nlp "yap/nlp/types"
-// 	"yap/util"
+// 	. "yu-val-weiss/yap/alg"
+// 	// G "yu-val-weiss/yap/alg/graph"
+// 	"yu-val-weiss/yap/alg/transition"
+// 	. "yu-val-weiss/yap/nlp/parser/dependency/transition"
+// 	nlp "yu-val-weiss/yap/nlp/types"
+// 	"yu-val-weiss/yap/util"
 // 	"fmt"
 // 	// "log"
 // 	// "reflect"

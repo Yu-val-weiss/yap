@@ -5,11 +5,12 @@ package raw
 // sentences end with a new line
 
 import (
-	nlp "yap/nlp/types"
+	nlp "yu-val-weiss/yap/nlp/types"
 
 	"bufio"
 	"bytes"
 	"io"
+
 	// "log"
 	"os"
 )

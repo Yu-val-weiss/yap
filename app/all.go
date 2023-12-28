@@ -3,8 +3,9 @@ package app
 import (
 	"os"
 
+	"flag"
+
 	"github.com/gonuts/commander"
-	"github.com/gonuts/flag"
 
 	"log"
 	// "net/http"
@@ -39,10 +40,11 @@ var AppCommands = []*commander.Command{
 }
 
 func AllCommands() *commander.Command {
+	cmdFlagSet := flag.NewFlagSet("app", flag.ExitOnError)
 	cmd := &commander.Command{
 		// Name:        os.Args[0],
 		Subcommands: AppCommands,
-		Flag:        *flag.NewFlagSet("app", flag.ExitOnError),
+		Flag:        *cmdFlagSet,
 	}
 	for _, app := range cmd.Subcommands {
 		app.Run = NewAppWrapCommand(app.Run)

@@ -2,23 +2,26 @@ package webapi
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"strings"
-	"yap/app"
-	"yap/nlp/format/conll"
-	"yap/nlp/format/lattice"
-	"yap/nlp/format/lex"
-	"yap/nlp/parser/joint"
-	"yap/nlp/types"
+	"yu-val-weiss/yap/app"
+	"yu-val-weiss/yap/nlp/format/conll"
+	"yu-val-weiss/yap/nlp/format/lattice"
+	"yu-val-weiss/yap/nlp/format/lex"
+	"yu-val-weiss/yap/nlp/parser/joint"
+	"yu-val-weiss/yap/nlp/types"
+
+	"flag"
 
 	"github.com/gonuts/commander"
-	"github.com/gonuts/flag"
 	"github.com/gorilla/mux"
 )
 
 var (
 	router *mux.Router
+	port   int
 )
 
 // NOTE: Actually parsed as amblattice and disamblattice
@@ -39,7 +42,7 @@ type Data struct {
 
 func HealthCheckHandler(resp http.ResponseWriter, req *http.Request) {
 	resp.WriteHeader(http.StatusOK)
-	log.Println(resp, "OK")
+	log.Println("Healthcheck OK")
 }
 
 func HebrewMorphAnalyzerHandler(resp http.ResponseWriter, req *http.Request) {
@@ -166,6 +169,7 @@ listen to api requests
 	cmd.Flag.BoolVar(&app.HebMaShowoov, "ma_show_oov", false, "Output OOV tokens")
 	cmd.Flag.BoolVar(&lex.LOG_FAILURES, "ma_show_lex_error", false, "Log errors encountered when loading the lexicon")
 	cmd.Flag.IntVar(&app.BeamSize, "beam", 64, "Beam size")
+	cmd.Flag.IntVar(&port, "port", 8000, "Choose a port number")
 	cmd.Flag.BoolVar(&app.UsePOP, "use_end_token", true, "Use end token (pop)")
 	cmd.Flag.BoolVar(&lattice.IGNORE_LEMMA, "nolemma", true, "Ignore lemmas")
 	//cmd.Flag.BoolVar(&conll.IGNORE_LEMMA, "conll_nolemma", true, "Ignore lemmas")
@@ -179,6 +183,7 @@ listen to api requests
 	cmd.Flag.StringVar(&app.JointModelFile, "joint_model_name", "joint_arc_zeager_model_temp_i33.b64", "Joint model file")
 	cmd.Flag.StringVar(&app.JointStrategy, "joint_strategy", "ArcGreedy", "Joint Strategy: ["+joint.JointStrategies+"]")
 	cmd.Flag.StringVar(&app.OracleStrategy, "joint_oracle_strategy", "ArcGreedy", "Oracle Strategy: ["+joint.OracleStrategies+"]")
+
 	return cmd
 }
 
@@ -187,6 +192,7 @@ func StartAPIServer(cmd *commander.Command, args []string) error {
 	MorphDisambiguatorInitialize(cmd, args)
 	DepParserInitialize(cmd, args)
 	JointParserInitialize()
+	log.Println("All models loaded!")
 	router = mux.NewRouter()
 	router.HandleFunc("/yap/heb/ma", HebrewMorphAnalyzerHandler)
 	router.HandleFunc("/yap/heb/md", MorphDisambiguatorHandler)
@@ -195,6 +201,6 @@ func StartAPIServer(cmd *commander.Command, args []string) error {
 	router.HandleFunc("/yap/heb/pipeline", HebrewPipelineHandler)
 	router.HandleFunc("/yap/heb/joint", HebrewJointHandler)
 	router.HandleFunc("/yap/heb/healthcheck", HealthCheckHandler)
-	log.Fatal(http.ListenAndServe(":8000", router))
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%v", port), router))
 	return nil
 }

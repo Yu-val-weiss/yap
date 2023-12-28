@@ -8,9 +8,9 @@ import (
 	"log"
 	"strconv"
 	"strings"
-	. "yap/alg/featurevector"
-	. "yap/alg/perceptron"
-	"yap/util"
+	. "yu-val-weiss/yap/alg/featurevector"
+	. "yu-val-weiss/yap/alg/perceptron"
+	"yu-val-weiss/yap/util"
 	// "sync"
 )
 

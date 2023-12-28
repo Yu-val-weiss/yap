@@ -1,12 +1,12 @@
 package search
 
 // import (
-// 	"yap/alg/featurevector"
-// 	"yap/alg/perceptron"
-// 	"yap/alg/transition"
-// 	TransitionModel "yap/alg/transition/model"
-// 	"yap/nlp/parser/dependency"
-// 	"yap/util"
+// 	"yu-val-weiss/yap/alg/featurevector"
+// 	"yu-val-weiss/yap/alg/perceptron"
+// 	"yu-val-weiss/yap/alg/transition"
+// 	TransitionModel "yu-val-weiss/yap/alg/transition/model"
+// 	"yu-val-weiss/yap/nlp/parser/dependency"
+// 	"yu-val-weiss/yap/util"
 // 	"log"
 // 	"runtime"
 // 	"sort"

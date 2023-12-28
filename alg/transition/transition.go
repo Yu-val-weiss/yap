@@ -3,11 +3,12 @@ package transition
 import (
 	"bytes"
 	"fmt"
+
 	// "log"
 	"strings"
 	"text/tabwriter"
-	. "yap/alg/featurevector"
-	"yap/util"
+	. "yu-val-weiss/yap/alg/featurevector"
+	"yu-val-weiss/yap/util"
 )
 
 var IDLE = &TypedTransition{'I', 0}

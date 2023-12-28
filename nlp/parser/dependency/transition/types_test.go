@@ -1,9 +1,9 @@
 package transition
 
 import (
-	nlp "yap/nlp/types"
 	"log"
 	"testing"
+	nlp "yu-val-weiss/yap/nlp/types"
 )
 
 func TestTaggedDepNode(t *testing.T) {

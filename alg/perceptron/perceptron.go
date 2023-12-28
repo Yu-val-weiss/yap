@@ -1,14 +1,13 @@
 package perceptron
 
 import (
-	// "yap/alg/transition"
+	// "yu-val-weiss/yap/alg/transition"
 
 	// "encoding/gob"
 	"fmt"
 	// "io"
 	"log"
-
-// "os"
+	// "os"
 )
 
 type StopCondition func(curIt, numIt, generations int, model Model) bool

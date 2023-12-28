@@ -3,14 +3,14 @@ package joint
 import (
 	"log"
 
-	. "yap/alg/transition"
-	. "yap/nlp/types"
-	"yap/util"
+	. "yu-val-weiss/yap/alg/transition"
+	. "yu-val-weiss/yap/nlp/types"
+	"yu-val-weiss/yap/util"
 
 	"strings"
-	dep "yap/nlp/parser/dependency/transition"
-	morph "yap/nlp/parser/dependency/transition/morph"
-	"yap/nlp/parser/disambig"
+	dep "yu-val-weiss/yap/nlp/parser/dependency/transition"
+	morph "yu-val-weiss/yap/nlp/parser/dependency/transition/morph"
+	"yu-val-weiss/yap/nlp/parser/disambig"
 )
 
 var (

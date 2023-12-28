@@ -1,20 +1,22 @@
 package app
 
 import (
-	"yap/nlp/format/lattice"
-	"yap/nlp/format/raw"
-	// "yap/nlp/format/mapping"
-	"yap/nlp/parser/disambig"
+	"yu-val-weiss/yap/nlp/format/lattice"
+	"yu-val-weiss/yap/nlp/format/raw"
 
-	nlp "yap/nlp/types"
+	// "yu-val-weiss/yap/nlp/format/mapping"
+	"yu-val-weiss/yap/nlp/parser/disambig"
+
+	nlp "yu-val-weiss/yap/nlp/types"
 
 	"fmt"
 	"log"
 	"os"
 	"strings"
 
+	"flag"
+
 	"github.com/gonuts/commander"
-	"github.com/gonuts/flag"
 )
 
 func GenLemmasConfigOut() {
@@ -68,8 +70,8 @@ func genLemmasInstance(goldLat, ambLat nlp.LatticeSentence) *disambig.MDConfig {
 			continue
 		}
 		mapping := &nlp.Mapping{
-			lat.Token,
-			lat.Spellouts[0],
+			Token:    lat.Token,
+			Spellout: lat.Spellouts[0],
 		}
 		mappings[i] = mapping
 	}

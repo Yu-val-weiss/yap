@@ -11,6 +11,8 @@ package commander
 
 import (
 	"bytes"
+	"context"
+	"flag"
 	"fmt"
 	"io"
 	"os"
@@ -19,7 +21,7 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/gonuts/flag"
+	"github.com/posener/complete"
 )
 
 // UsageSection differentiates between sections in the usage text.
@@ -77,6 +79,12 @@ type Command struct {
 	// point them at any io.Writer
 	Stdout io.Writer
 	Stderr io.Writer
+
+	// Complete provides command completion.
+	// If Complete is nil, a default one will be generated.
+	Complete *complete.Command
+
+	ctx context.Context
 }
 
 // Name returns the command's name: the first word in the usage line.
@@ -105,6 +113,19 @@ func (c *Command) FlagOptions() string {
 		return fmt.Sprintf("\nOptions:\n%s", str)
 	}
 	return ""
+}
+
+// Lookup returns the named flag value or nil if none exists.
+func (c *Command) Lookup(name string) interface{} {
+	fval := c.Flag.Lookup(name)
+	if fval == nil {
+		return nil
+	}
+	fget, ok := fval.Value.(flag.Getter)
+	if !ok {
+		return nil
+	}
+	return fget.Get()
 }
 
 // Runnable reports whether the command can be run; otherwise
@@ -166,25 +187,50 @@ func (c *Command) init() {
 	for _, cmd := range c.Subcommands {
 		cmd.Parent = c
 	}
+
+	// initialize completer
+	// this needs to be done after initializing sub-commands.
+	if c.Complete == nil {
+		const user = false
+		c.Complete = makeDefaultCompleter(c, user)
+	}
+}
+
+func (c *Command) Context() context.Context {
+	if c.ctx != nil {
+		return c.ctx
+	}
+	if c.Parent != nil {
+		return c.Parent.Context()
+	}
+	panic("command has no context")
 }
 
 // Dispatch executes the command using the provided arguments.
 // If a subcommand exists matching the first argument, it is dispatched.
 // Otherwise, the command's Run function is called.
-func (c *Command) Dispatch(args []string) error {
+func (c *Command) Dispatch(ctx context.Context, args []string) error {
 	if c == nil {
 		return fmt.Errorf("Called Run() on a nil Command")
 	}
+	c.ctx = ctx
 
 	// Ensure command is initialized.
 	c.init()
+
+	if completion() {
+		if !complete.New(c.Name(), *c.Complete).Run() {
+			return fmt.Errorf("could not run tab-completion")
+		}
+		return nil
+	}
 
 	// First, try a sub-command
 	if len(args) > 0 {
 		for _, cmd := range c.Subcommands {
 			n := cmd.Name()
 			if n == args[0] {
-				return cmd.Dispatch(args[1:])
+				return cmd.Dispatch(ctx, args[1:])
 			}
 		}
 
@@ -196,7 +242,7 @@ func (c *Command) Dispatch(args []string) error {
 		// then, try out an external binary (git-style)
 		bin, err := exec.LookPath(c.FullName() + "-" + args[0])
 		if err == nil {
-			cmd := exec.Command(bin, args[1:]...)
+			cmd := exec.CommandContext(ctx, bin, args[1:]...)
 			cmd.Stdin = os.Stdin
 			cmd.Stdout = c.Stdout
 			cmd.Stderr = c.Stderr
