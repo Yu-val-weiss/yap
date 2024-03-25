@@ -28,8 +28,6 @@ var (
 	port   int
 )
 
-// NOTE: Actually parsed as amblattice and disamblattice
-
 type Request struct {
 	Text          string `json:"text"`
 	AmbLattice    string `json:"amb_lattice"`
